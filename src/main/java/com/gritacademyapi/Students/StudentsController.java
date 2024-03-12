@@ -1,5 +1,4 @@
 package com.gritacademyapi.Students;
-import com.gritacademyapi.Courses.Course;
 import com.gritacademyapi.Courses.StudentCoursesDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
