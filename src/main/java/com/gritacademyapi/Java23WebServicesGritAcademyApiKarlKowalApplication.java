@@ -9,5 +9,4 @@ public class Java23WebServicesGritAcademyApiKarlKowalApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(Java23WebServicesGritAcademyApiKarlKowalApplication.class, args);
 	}
-
 }
