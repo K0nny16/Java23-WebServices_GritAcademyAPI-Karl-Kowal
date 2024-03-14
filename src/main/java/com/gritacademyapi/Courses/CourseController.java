@@ -19,8 +19,13 @@ public class CourseController {
         return ResponseEntity.ok(courseList);
     }
     @GetMapping("/courses/id/{id}")
-    public ResponseEntity<AttendanceDTO> getAttendance(@PathVariable int id){
+    public ResponseEntity<AttendanceDTO> getAttendanceById(@PathVariable int id){
         AttendanceDTO dto = coursesService.getCourseAndStudentsById(id);
+        return ResponseEntity.ok(dto);
+    }
+    @GetMapping("/courses/name/{name}")
+    public ResponseEntity<AttendanceDTO> getAttendanceByName(@PathVariable String name){
+        AttendanceDTO dto = coursesService.getCourseAndStudentsByCoursename(name);
         return ResponseEntity.ok(dto);
     }
 }
