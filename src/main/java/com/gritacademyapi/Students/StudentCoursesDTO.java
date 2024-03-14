@@ -1,4 +1,5 @@
-package com.gritacademyapi.Courses;
+package com.gritacademyapi.Students;
+import com.gritacademyapi.Courses.CourseDTO;
 import lombok.*;
 import java.util.List;
 
@@ -12,5 +13,4 @@ public class StudentCoursesDTO { //DTO Data transfer object
     private String fName;
     private String lName;
     private List<CourseDTO> courses;
-
 }

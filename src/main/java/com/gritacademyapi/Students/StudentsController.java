@@ -1,5 +1,4 @@
 package com.gritacademyapi.Students;
-import com.gritacademyapi.Courses.StudentCoursesDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,9 +21,24 @@ public class StudentsController {
        List<StudentCoursesDTO> dtos = studentsService.getAllStudentCourses();
        return ResponseEntity.ok(dtos);
     }
-    @GetMapping("/students/{studentId}")
+    @GetMapping("/students/id/{studentId}")
     public ResponseEntity<StudentCoursesDTO> getStudentCourses(@PathVariable int studentId) {
         StudentCoursesDTO dto = studentsService.getStudentWithCourses(studentId);
+        return ResponseEntity.ok(dto);
+    }
+    @GetMapping("/students/fname/{name}")
+    public ResponseEntity<List<StudentCoursesDTO>> getStudentsCoursesByfName(@PathVariable String name){
+        List<StudentCoursesDTO> dto = studentsService.fNameSearch(name);
+        return ResponseEntity.ok(dto);
+    }
+    @GetMapping("/students/lname/{name}")
+    public ResponseEntity<List<StudentCoursesDTO>> getStudentsCoursesBylName(@PathVariable String name){
+        List<StudentCoursesDTO> dto = studentsService.lNameSearch(name);
+        return ResponseEntity.ok(dto);
+    }
+    @GetMapping("/students/town/{town}")
+    public ResponseEntity<List<StudentCoursesDTO>> getStudentsCoursesByTown(@PathVariable String town){
+        List<StudentCoursesDTO> dto = studentsService.townSearch(town);
         return ResponseEntity.ok(dto);
     }
 }

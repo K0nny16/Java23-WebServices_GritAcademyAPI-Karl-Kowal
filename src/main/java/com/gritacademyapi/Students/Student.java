@@ -7,7 +7,7 @@ import lombok.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity(name ="students")
+@Entity(name = "students")
 @Table(name ="students")
 @Getter
 @Setter
@@ -19,7 +19,7 @@ public class Student {
 
     @Column(name = "id")
     private int id;
-    @Column(name = "fname")
+    @Column(name = "fName")
     private String fName;
     @Column(name ="lName")
     private String lName;
