@@ -36,6 +36,14 @@ public class CoursesService {
         else
             throw new RuntimeException("Course not find with name: "+name);
     }
+    List<CourseDTO> getCourseLike(String name){
+        return coursesRepo.findBynameContains(name).stream().map(course -> new CourseDTO(
+                course.getId(),
+                course.getName(),
+                course.getYhp(),
+                course.getDescription()
+        )).collect(Collectors.toList());
+    }
 
     private AttendanceDTO getAttendanceDTO(Optional<Course> courseOptional) {
         Course course = courseOptional.get();
