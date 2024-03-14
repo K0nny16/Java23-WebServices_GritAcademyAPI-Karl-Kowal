@@ -21,7 +21,7 @@ public class Java23WebServicesGritAcademyApiKarlKowalApplication {
 
 
 		VG Punkter
-		
+
 Lägga till kurser.
 Tabort kurs med ID.
 Lägga till elev.
