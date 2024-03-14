@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface CoursesRepo extends JpaRepository<Course,Integer> {
     Optional<Course> findBynameIgnoreCase(String name);
     List<Course> findBynameContains(String name);
+    List<Course> findBydescriptionContains(String description);
 }

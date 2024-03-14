@@ -44,6 +44,14 @@ public class CoursesService {
                 course.getDescription()
         )).collect(Collectors.toList());
     }
+    List<CourseDTO> getCourseLikeDescription(String description){
+        return coursesRepo.findBydescriptionContains(description).stream().map(course -> new CourseDTO(
+                course.getId(),
+                course.getName(),
+                course.getYhp(),
+                course.getDescription()
+        )).collect(Collectors.toList());
+    }
 
     private AttendanceDTO getAttendanceDTO(Optional<Course> courseOptional) {
         Course course = courseOptional.get();

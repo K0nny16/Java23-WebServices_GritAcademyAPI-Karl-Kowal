@@ -28,9 +28,14 @@ public class CourseController {
         AttendanceDTO dto = coursesService.getCourseAndStudentsByCoursename(name);
         return ResponseEntity.ok(dto);
     }
-    @GetMapping("courses/like/{like}")
+    @GetMapping("/courses/like/name/{like}")
     public ResponseEntity<List<CourseDTO>> partialSearch(@PathVariable String like){
         List<CourseDTO> dto = coursesService.getCourseLike(like);
+        return ResponseEntity.ok(dto);
+    }
+    @GetMapping("/courses/like/description/{like}")
+    public ResponseEntity<List<CourseDTO>> descriptionSearch(@PathVariable String like){
+        List<CourseDTO> dto = coursesService.getCourseLikeDescription(like);
         return ResponseEntity.ok(dto);
     }
 }
