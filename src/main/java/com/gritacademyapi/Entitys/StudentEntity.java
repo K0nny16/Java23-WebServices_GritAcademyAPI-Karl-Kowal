@@ -1,6 +1,4 @@
-package com.gritacademyapi.Students;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.gritacademyapi.Courses.Course;
+package com.gritacademyapi.Entitys;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,7 +11,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Student {
+public class StudentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
@@ -39,5 +37,5 @@ public class Student {
             joinColumns = @JoinColumn(name = "students_id"),
             inverseJoinColumns = @JoinColumn(name = "courses_id")
     )
-    private Set<Course> courses = new HashSet<>();
+    private Set<CourseEntity> courses = new HashSet<>();
 }

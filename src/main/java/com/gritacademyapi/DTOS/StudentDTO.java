@@ -1,4 +1,4 @@
-package com.gritacademyapi.Students;
+package com.gritacademyapi.DTOS;
 import lombok.*;
 
 @Data

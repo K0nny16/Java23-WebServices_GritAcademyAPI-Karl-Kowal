@@ -1,5 +1,9 @@
-package com.gritacademyapi.Students;
-import com.gritacademyapi.Courses.CourseDTO;
+package com.gritacademyapi.Services;
+import com.gritacademyapi.DTOS.CourseDTO;
+import com.gritacademyapi.DTOS.StudentCoursesDTO;
+import com.gritacademyapi.DTOS.StudentDTO;
+import com.gritacademyapi.Entitys.StudentEntity;
+import com.gritacademyapi.Repos.StudentsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -11,20 +15,20 @@ public class StudentsService {
     @Autowired
     StudentsRepo studentsRepo;
     public StudentCoursesDTO getStudentWithCourses(int studentId){
-        Optional<Student> studentOptional = studentsRepo.findById(studentId);
+        Optional<StudentEntity> studentOptional = studentsRepo.findById(studentId);
         if(studentOptional.isPresent()){
-            Student student = studentOptional.get();
-            List<CourseDTO> courseDTOS = student.getCourses().stream()
+            StudentEntity studentEntity = studentOptional.get();
+            List<CourseDTO> courseDTOS = studentEntity.getCourses().stream()
                     .map(course -> new CourseDTO(course.getId(), course.getName(),course.getYhp(),course.getDescription()))
                     .toList();
-            return new StudentCoursesDTO(student.getId(),student.getFName(),student.getLName(),courseDTOS);
+            return new StudentCoursesDTO(studentEntity.getId(), studentEntity.getFName(), studentEntity.getLName(),courseDTOS);
         }else {
             throw new RuntimeException("Student not found with ID: "+studentId);
         }
     }
     public List<StudentCoursesDTO> getAllStudentCourses(){
-        List<Student> students = studentsRepo.findAll();
-        return getStudentCoursesDTOS(students);
+        List<StudentEntity> studentEntities = studentsRepo.findAll();
+        return getStudentCoursesDTOS(studentEntities);
     }
 
     public List<StudentDTO> getAllStudents(){
@@ -40,19 +44,19 @@ public class StudentsService {
         )).collect(Collectors.toList());
     }
     public List<StudentCoursesDTO> fNameSearch(String fname){
-        List<Student> students = studentsRepo.findByfNameIgnoreCase(fname);
-        return getStudentCoursesDTOS(students);
+        List<StudentEntity> studentEntities = studentsRepo.findByfNameIgnoreCase(fname);
+        return getStudentCoursesDTOS(studentEntities);
     }
     public List<StudentCoursesDTO> lNameSearch(String lname){
-        List<Student> students = studentsRepo.findBylNameIgnoreCase(lname);
-        return getStudentCoursesDTOS(students);
+        List<StudentEntity> studentEntities = studentsRepo.findBylNameIgnoreCase(lname);
+        return getStudentCoursesDTOS(studentEntities);
     }
     public List<StudentCoursesDTO> townSearch(String town){
-        List<Student> students = studentsRepo.findBytownEqualsIgnoreCase(town);
-        return getStudentCoursesDTOS(students);
+        List<StudentEntity> studentEntities = studentsRepo.findBytownEqualsIgnoreCase(town);
+        return getStudentCoursesDTOS(studentEntities);
     }
-    private List<StudentCoursesDTO> getStudentCoursesDTOS(List<Student> students) {
-        return students.stream().map(student -> {
+    private List<StudentCoursesDTO> getStudentCoursesDTOS(List<StudentEntity> studentEntities) {
+        return studentEntities.stream().map(student -> {
             List<CourseDTO> courseDTOS = student.getCourses().stream().map(course -> new CourseDTO(
                     course.getId(),
                     course.getName(),
@@ -61,6 +65,12 @@ public class StudentsService {
             )).toList();
             return new StudentCoursesDTO(student.getId(),student.getFName(),student.getLName(),courseDTOS);
         }).collect(Collectors.toList());
+    }
+    public void addStudent(StudentEntity studentEntity){
+        studentsRepo.save(studentEntity);
+    }
+    public void deleteStudent(int id){
+        studentsRepo.deleteById(id);
     }
 }
 

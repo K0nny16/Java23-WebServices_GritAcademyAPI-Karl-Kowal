@@ -1,5 +1,5 @@
-package com.gritacademyapi.Courses;
-import com.gritacademyapi.Students.Student;
+package com.gritacademyapi.Entitys;
+import com.gritacademyapi.Entitys.StudentEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,7 +12,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Course {
+public class CourseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
@@ -26,5 +26,5 @@ public class Course {
     private String description;
 
     @ManyToMany(mappedBy = "courses",fetch = FetchType.LAZY)
-    private Set<Student> students = new HashSet<>();
+    private Set<StudentEntity> students = new HashSet<>();
 }

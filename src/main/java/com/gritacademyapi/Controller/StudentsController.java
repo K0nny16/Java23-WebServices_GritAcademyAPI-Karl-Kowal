@@ -1,9 +1,15 @@
-package com.gritacademyapi.Students;
+package com.gritacademyapi.Controller;
+import com.gritacademyapi.DTOS.StudentCoursesDTO;
+import com.gritacademyapi.DTOS.StudentDTO;
+import com.gritacademyapi.Entitys.StudentEntity;
+import com.gritacademyapi.Services.StudentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.util.List;
 @RestController
 public class StudentsController {
@@ -40,5 +46,31 @@ public class StudentsController {
     public ResponseEntity<List<StudentCoursesDTO>> getStudentsCoursesByTown(@PathVariable String town){
         List<StudentCoursesDTO> dto = studentsService.townSearch(town);
         return ResponseEntity.ok(dto);
+    }
+    @GetMapping("/students/add")
+    public ModelAndView addStudentForm(){
+        return new ModelAndView("addStudent");
+    }
+    @PostMapping("/addStudent")
+    public ModelAndView addStudent(@ModelAttribute StudentEntity studentEntity, RedirectAttributes redirectAttributes){
+        try{
+            studentsService.addStudent(studentEntity);
+            return new ModelAndView("redirect:/students");
+        }catch (Exception ex){
+            ex.printStackTrace();
+            redirectAttributes.addFlashAttribute("errorMessage","Something went wrong! Try again");
+            return new ModelAndView("redirect:error");
+        }
+    }
+    @GetMapping("/students/remove/{id}")
+    public ModelAndView deleteStudent(@PathVariable int id, Model model){
+        try{
+            studentsService.deleteStudent(id);
+            return new ModelAndView("redirect:/students");
+        }catch (Exception ex){
+            ex.printStackTrace();
+            model.addAttribute("error","That student id does not exist in the database");
+            return new ModelAndView("redirect:error");
+        }
     }
 }

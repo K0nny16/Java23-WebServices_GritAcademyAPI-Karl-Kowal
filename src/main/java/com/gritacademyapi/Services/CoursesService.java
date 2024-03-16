@@ -1,6 +1,9 @@
-package com.gritacademyapi.Courses;
-
-import com.gritacademyapi.Students.StudentDTO;
+package com.gritacademyapi.Services;
+import com.gritacademyapi.Repos.CoursesRepo;
+import com.gritacademyapi.DTOS.AttendanceDTO;
+import com.gritacademyapi.DTOS.CourseDTO;
+import com.gritacademyapi.DTOS.StudentDTO;
+import com.gritacademyapi.Entitys.CourseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +17,7 @@ public class CoursesService {
     @Autowired
     CoursesRepo coursesRepo;
 
-    List<CourseDTO> getAllCourses(){
+    public List<CourseDTO> getAllCourses(){
         return coursesRepo.findAll().stream().map(course -> new CourseDTO(
                 course.getId(),
                 course.getName(),
@@ -22,21 +25,21 @@ public class CoursesService {
                 course.getDescription()
         )).collect(Collectors.toList());
     }
-    AttendanceDTO getCourseAndStudentsById(int id){
-        Optional<Course> courseOptional = coursesRepo.findById(id);
+    public AttendanceDTO getCourseAndStudentsById(int id){
+        Optional<CourseEntity> courseOptional = coursesRepo.findById(id);
         if(courseOptional.isPresent())
             return getAttendanceDTO(courseOptional);
         else
             throw new RuntimeException("Course not found with ID: "+id);
     }
-    AttendanceDTO getCourseAndStudentsByCoursename(String name){
-        Optional<Course> courseOptional = coursesRepo.findBynameIgnoreCase(name);
+    public AttendanceDTO getCourseAndStudentsByCoursename(String name){
+        Optional<CourseEntity> courseOptional = coursesRepo.findBynameIgnoreCase(name);
         if(courseOptional.isPresent())
             return getAttendanceDTO(courseOptional);
         else
             throw new RuntimeException("Course not find with name: "+name);
     }
-    List<CourseDTO> getCourseLike(String name){
+    public List<CourseDTO> getCourseLike(String name){
         return coursesRepo.findBynameContains(name).stream().map(course -> new CourseDTO(
                 course.getId(),
                 course.getName(),
@@ -44,7 +47,7 @@ public class CoursesService {
                 course.getDescription()
         )).collect(Collectors.toList());
     }
-    List<CourseDTO> getCourseLikeDescription(String description){
+    public List<CourseDTO> getCourseLikeDescription(String description){
         return coursesRepo.findBydescriptionContains(description).stream().map(course -> new CourseDTO(
                 course.getId(),
                 course.getName(),
@@ -53,9 +56,9 @@ public class CoursesService {
         )).collect(Collectors.toList());
     }
 
-    private AttendanceDTO getAttendanceDTO(Optional<Course> courseOptional) {
-        Course course = courseOptional.get();
-        List<StudentDTO> studentDTOS = course.getStudents().stream().map(student -> new StudentDTO(
+    private AttendanceDTO getAttendanceDTO(Optional<CourseEntity> courseOptional) {
+        CourseEntity courseEntity = courseOptional.get();
+        List<StudentDTO> studentDTOS = courseEntity.getStudents().stream().map(student -> new StudentDTO(
                 student.getId(),
                 student.getFName(),
                 student.getLName(),
@@ -65,6 +68,12 @@ public class CoursesService {
                 student.getUsername(),
                 student.getPassword()
         )).toList();
-        return new AttendanceDTO(course.getId(),course.getName(),course.getYhp(), course.getDescription(), studentDTOS);
+        return new AttendanceDTO(courseEntity.getId(), courseEntity.getName(), courseEntity.getYhp(), courseEntity.getDescription(), studentDTOS);
+    }
+    public void addCourse(CourseEntity courseEntity){
+        coursesRepo.save(courseEntity);
+    }
+    public void deleteCourse(int id){
+        coursesRepo.deleteById(id);
     }
 }

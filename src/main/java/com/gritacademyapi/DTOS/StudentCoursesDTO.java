@@ -1,5 +1,4 @@
-package com.gritacademyapi.Students;
-import com.gritacademyapi.Courses.CourseDTO;
+package com.gritacademyapi.DTOS;
 import lombok.*;
 import java.util.List;
 
