@@ -13,7 +13,5 @@ public class Java23WebServicesGritAcademyApiKarlKowalApplication {
 
 /*
 		Att Göra
-
-1:Felhantera ifall det är en tom json osv.
 2:Kommentera koden och kolla upp saker för att underlätta presentation.
  */
