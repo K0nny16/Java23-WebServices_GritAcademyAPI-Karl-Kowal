@@ -21,26 +21,36 @@ public class CourseController {
     @GetMapping("/courses")
     public ResponseEntity<List<CourseDTO>> getAllCourses(){
         List<CourseDTO> courseList = coursesService.getAllCourses();
+        if(courseList.isEmpty())
+            return ResponseEntity.noContent().build();
         return ResponseEntity.ok(courseList);
     }
     @GetMapping("/courses/id/{id}")
     public ResponseEntity<AttendanceDTO> getAttendanceById(@PathVariable int id){
         AttendanceDTO dto = coursesService.getCourseAndStudentsById(id);
+        if(dto == null)
+            return ResponseEntity.noContent().build();
         return ResponseEntity.ok(dto);
     }
     @GetMapping("/courses/name/{name}")
     public ResponseEntity<AttendanceDTO> getAttendanceByName(@PathVariable String name){
         AttendanceDTO dto = coursesService.getCourseAndStudentsByCoursename(name);
+        if(dto == null)
+            return ResponseEntity.noContent().build();
         return ResponseEntity.ok(dto);
     }
     @GetMapping("/courses/like/name/{like}")
     public ResponseEntity<List<CourseDTO>> partialSearch(@PathVariable String like){
         List<CourseDTO> dto = coursesService.getCourseLike(like);
+        if(dto == null)
+            return ResponseEntity.noContent().build();
         return ResponseEntity.ok(dto);
     }
     @GetMapping("/courses/like/description/{like}")
     public ResponseEntity<List<CourseDTO>> descriptionSearch(@PathVariable String like){
         List<CourseDTO> dto = coursesService.getCourseLikeDescription(like);
+        if(dto == null || dto.isEmpty())
+            return ResponseEntity.noContent().build();
         return ResponseEntity.ok(dto);
     }
     @GetMapping("/courses/add")
@@ -68,8 +78,7 @@ public class CourseController {
         }
     }
     @GetMapping("/courses/remove/{id}")
-    public ModelAndView deleteCourse(@PathVariable int id,
-                                     Model model){
+    public ModelAndView deleteCourse(@PathVariable int id, Model model){
         try {
             coursesService.deleteCourse(id);
             return new ModelAndView("redirect:/courses");
@@ -79,4 +88,5 @@ public class CourseController {
             return new ModelAndView("redirect:error");
         }
     }
+
 }

@@ -34,13 +34,13 @@ public class StudentsService {
     public List<StudentDTO> getAllStudents(){
         return studentsRepo.findAll().stream().map(student -> new StudentDTO(
                 student.getId(),
+                student.getFName(),
+                student.getLName(),
                 student.getTown(),
                 student.getEmail(),
                 student.getPhone(),
                 student.getUsername(),
-                student.getPassword(),
-                student.getFName(),
-                student.getLName()
+                student.getPassword()
         )).collect(Collectors.toList());
     }
     public List<StudentCoursesDTO> fNameSearch(String fname){
