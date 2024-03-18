@@ -13,8 +13,8 @@ public class AttendanceService {
     @Autowired
     private CoursesRepo coursesRepo;
 
-    public void removeStudentFromCourse(int studentID,int courseID) throws EntityNotFoundException{
-        StudentEntity studentEntity = studentsRepo.findById(studentID)
+    public void removeStudentFromCourse(int studentID,int courseID){
+        StudentEntity studentEntity = studentsRepo.findById(studentID)          //findById returnar en optional så behöver throw delen
                 .orElseThrow(() -> new EntityNotFoundException("Student not found with ID: " + studentID));
         CourseEntity courseEntity = coursesRepo.findById(courseID)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found with ID: "+courseID));
