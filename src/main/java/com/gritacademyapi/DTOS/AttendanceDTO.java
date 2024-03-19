@@ -1,6 +1,4 @@
 package com.gritacademyapi.DTOS;
-
-import com.gritacademyapi.DTOS.StudentDTO;
 import lombok.*;
 
 import java.util.List;

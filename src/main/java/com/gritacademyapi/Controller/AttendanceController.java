@@ -33,7 +33,7 @@ public class AttendanceController {
     public ResponseEntity<String> addAttendance(@PathVariable int studentID, @PathVariable int courseID, Model model){
         try {
             attendanceService.removeStudentFromCourse(studentID, courseID);
-            return ResponseEntity.ok("Student removed from course successfully");
+            return ResponseEntity.ok("Student add from course successfully");
         } catch (EntityNotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Check Student ID and Course ID and retry");
         }
