@@ -21,21 +21,23 @@ public class AttendanceController {
     @Autowired
     private StudentsService studentsService;
     @GetMapping("/attendance/remove/student/{studentID}/course/{courseID}")
-    public ResponseEntity<String> deleteAttendance(@PathVariable int studentID, Model model, @PathVariable int courseID){
+    public ModelAndView deleteAttendance(@PathVariable int studentID, Model model, @PathVariable int courseID){
         try {
             attendanceService.removeStudentFromCourse(studentID, courseID);
-            return ResponseEntity.ok("Student removed from course successfully");
-        } catch (EntityNotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Check Student ID and Course ID and retry");
+            return new ModelAndView("redirect:/students/id"+studentID);
+        } catch (EntityNotFoundException ex){
+            model.addAttribute("error",ex.getMessage());
+            return new ModelAndView("redirect:error");
         }
     }
     @GetMapping("/attendance/add/student/{studentID}/course/{courseID}")
-    public ResponseEntity<String> addAttendance(@PathVariable int studentID, @PathVariable int courseID, Model model){
+    public ModelAndView addAttendance(@PathVariable int studentID, @PathVariable int courseID, Model model){
         try {
             attendanceService.removeStudentFromCourse(studentID, courseID);
-            return ResponseEntity.ok("Student add from course successfully");
+            return new ModelAndView("redirect:/students/id/"+studentID);
         } catch (EntityNotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Check Student ID and Course ID and retry");
+            model.addAttribute("error",ex.getMessage());
+            return new ModelAndView("redirect:error");
         }
     }
     @GetMapping("/Attendance")
