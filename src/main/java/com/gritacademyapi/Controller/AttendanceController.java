@@ -24,7 +24,7 @@ public class AttendanceController {
     public ModelAndView deleteAttendance(@PathVariable int studentID, Model model, @PathVariable int courseID){
         try {
             attendanceService.removeStudentFromCourse(studentID, courseID);
-            return new ModelAndView("redirect:/students/id"+studentID);
+            return new ModelAndView("redirect:/students/id/"+studentID);
         } catch (EntityNotFoundException ex){
             model.addAttribute("error",ex.getMessage());
             return new ModelAndView("redirect:error");
@@ -33,7 +33,7 @@ public class AttendanceController {
     @GetMapping("/attendance/add/student/{studentID}/course/{courseID}")
     public ModelAndView addAttendance(@PathVariable int studentID, @PathVariable int courseID, Model model){
         try {
-            attendanceService.removeStudentFromCourse(studentID, courseID);
+            attendanceService.addStudentToCourse(studentID, courseID);
             return new ModelAndView("redirect:/students/id/"+studentID);
         } catch (EntityNotFoundException ex) {
             model.addAttribute("error",ex.getMessage());
